@@ -58,7 +58,7 @@ def a_star(maze, start, target, screen):
         screen.fill(BLACK)
         draw_maze(maze, path, screen, open_set, closed_set, current.position)  # Draw maze with current state
         pygame.display.flip()
-        time.sleep(0.0000001)  # Delay for visual effect
+        #time.sleep(0.0000001)  # Delay for visual effect 
 
         if current.position == target:
             # Reconstruct the path
@@ -159,6 +159,13 @@ text_y = WINDOW_SIZE[1] - 40
 screen.blit(time_text, (text_x, text_y))
 pygame.display.flip()
 
+# Save the number of cell in line
+def save_path_length_to_file(path, directory):
+    if path is not None:
+        output_file = os.path.join(directory, "Number_of_cell_A_Star.txt")
+        with open(output_file, 'w') as file:
+            file.write(str(len(path)) + '\n')
+            
 # Save the final maze as an image
 output_dir = os.path.join("RESULT", "No_Weight")
 os.makedirs(output_dir, exist_ok=True)
@@ -171,6 +178,7 @@ if path is None:
 else:
     print("Path found!", path)
     print(f"Elapsed Time: {elapsed_time:.2f} seconds")
+    save_path_length_to_file(path, output_dir)
 
 # Final game loop to keep window open
 running = True

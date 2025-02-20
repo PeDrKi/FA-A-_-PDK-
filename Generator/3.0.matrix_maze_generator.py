@@ -58,6 +58,18 @@ def remove_extra_walls(maze, ratio=0.5):
         y, x = walls.pop()
         maze[y, x] = random.randint(1, 99)
 
+def save_maze_to_file(maze, filename):
+    """Lưu lưới vào file văn bản trong thư mục cha sau khi loại bỏ hàng đầu, hàng cuối, cột đầu và cột cuối."""
+    parent_folder = os.path.dirname(os.getcwd())  # Lấy thư mục cha
+    filepath = os.path.join(parent_folder, filename)
+
+    trimmed_maze = maze[1:-1, 1:-1]  # Loại bỏ hàng đầu, hàng cuối, cột đầu và cột cuối
+
+    with open(filepath, 'w') as f:
+        for row in trimmed_maze:
+            f.write(' '.join(map(str, row)) + '\n')
+
+            
 def save_maze_as_image(maze, filename):
     parent_folder = os.path.dirname(os.getcwd())  
     folder = os.path.join(parent_folder, "Source_PIC")
@@ -90,6 +102,7 @@ def main():
     start, end = (1, 1), (size - 2, size - 2)
     ensure_multiple_paths(maze, start, end)
     remove_extra_walls(maze, ratio=0.5)
+    save_maze_to_file(maze, "matrix_maze.txt")  
     save_maze_as_image(maze, "matrix_maze.png")
 
 if __name__ == "__main__":
